@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: newtest
+server:
+  port: 8080

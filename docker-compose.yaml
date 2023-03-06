@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  newtest:
+    image: newtest
+    container_name: newtest
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    ports:
+    - ${APP_INGRESS_SERVER_PORT:-8080}:8080
+    build: .
+    healthcheck:
+      test: curl http://localhost:8080
+      interval: 5s
+      retries: 10
+      start_period: 5s
+      timeout: 10s
+    networks:
+    - app-newtest
+    - common-network
+  jaeger-tracing:
+    image: jaegertracing/all-in-one:1.42
+    container_name: jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+    - 6831:6831
+    - 6832:6832
+    - 5778:5778
+    - 16686:16686
+    - 4317:4317
+    - 4318:4318
+    - 14250:14250
+    - 14268:14268
+    - 14269:14269
+    - 9411:9411
+    networks:
+    - common-network
+networks:
+  app-newtest:
+    driver: bridge
+  common-network:
+    driver: bridge

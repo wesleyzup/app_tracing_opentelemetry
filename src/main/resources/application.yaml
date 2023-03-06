@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: meuapp
+server:
+  port: 8080
+otel:
+  springboot:
+    resource:
+      attributes:
+        service:
+          name: newtest-tracing
+  exporter:
+    otlp:
+      metrics:
+        enabled: false
+      endpoint: http://jaeger-tracing:4317
